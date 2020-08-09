@@ -1,0 +1,41 @@
+f = open("input_file_q1.txt", 'r')
+output = open("op.txt", 'w')
+read_line = f.readlines()
+print(read_line[0])
+t = read_line[0]
+j = 0
+for _ in range(int(t)):
+    n = int(read_line[j+1])
+    income = list(read_line[j+2])
+    out = list(read_line[j+3])
+    j+=3
+    res = [['N' for _ in range(n)] for _ in range(n)]
+
+
+    # Diagonal check
+    for i in range(n):
+        res[i][i] = 'Y'
+
+    for i in range(n):
+        if out[i] == 'Y':
+                x = i
+                while out[x]=='Y' and x < n-1 and out[x] == income[x+1]:
+                        res[i][x+1] = 'Y'
+                        x += 1
+
+
+    for i in range(n-1,0,-1):
+        if out[i] == 'Y':
+            x = i
+            while out[x]=='Y' and out[x] == income[x-1] and x>0:
+                res[i][x-1] = 'Y'
+                x -= 1
+    print("Case #{0}:".format(_+1), file=output)
+    for i in res:
+        print(''.join(i),file=output)
+
+
+f.close()
+output.close()
+print('Input file closed:', f.closed)
+print('Output file closed:', output.closed)
